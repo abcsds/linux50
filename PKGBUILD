@@ -5,18 +5,18 @@
 # Maintainer: Philip Müller (x86_64) <philm@manjaro.org>
 # Maintainer: Jonathon Fernyhough (i686) <jonathon@manjaro.org>
 
-pkgbase=linux421
-pkgname=('linux421' 'linux421-headers')
+pkgbase=linux50
+pkgname=('linux50' 'linux50-headers')
 _kernelname=-MANJARO
-_basekernel=4.21
-_basever=421
+_basekernel=5.0
+_basever=50
 _aufs=20181217
 _bfq=v9
 _bfqdate=20181212
 _sub=0
-_rc=rc0
-_commit=903b77c631673eeec9e9114e9524171cdf9a2646
-_shortcommit=${_rc}.1228.g903b77c
+_rc=rc2
+_commit=6e693b3ffecb0b478c7050b44a4842854154f715
+_shortcommit=${_rc}.0120.g6e693b3
 pkgver=${_basekernel}${_shortcommit}
 #pkgver=${_basekernel}.${_sub}
 pkgrel=1
@@ -61,8 +61,8 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.
         '0011-bootsplash.patch'
         '0012-bootsplash.patch'
         '0013-bootsplash.patch')
-sha256sums=('9c60c036aac3356d4ce120c777504b3358d583b5d9128cabbd58fe4b0af883d3'
-            '52e56f12601c69a0b189a7e4c8c8f4c455e50b844db6395e7344d4e6e4c00495'
+sha256sums=('996e05dbdc789b80b6a33ee82d22d8a2120b59694ae1c7298050784bf7ab9826'
+            '0f955391df2f631f7bb4e63803310671316278c70d014fb803c0e18a384dba45'
             'f5903377d29fc538af98077b81982efdc091a8c628cb85566e88e1b5018f12bf'
             '43942683a7ff01b180dff7f3de2db4885d43ab3d4e7bd0e1918c3aaf2ee061f4'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -142,9 +142,6 @@ prepare() {
   # set extraversion to pkgrel
   sed -ri "s|^(EXTRAVERSION =).*|\1 -${pkgrel}|" Makefile
 
-  # set patch level
-  sed -ri "s|^(PATCHLEVEL =).*|\1 21|" Makefile
-
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
 
@@ -170,7 +167,7 @@ build() {
   make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
-package_linux421() {
+package_linux50() {
   pkgdesc="The ${pkgbase/linux/Linux} kernel and modules"
   depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7')
   optdepends=('crda: to set the correct wireless channels of your country')
@@ -227,7 +224,7 @@ package_linux421() {
   true && install=${install}.pkg
 
   # install mkinitcpio preset file
-  sed "${_subst}" ${srcdir}/linux421.preset |
+  sed "${_subst}" ${srcdir}/linux50.preset |
     install -Dm644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
 
   # install pacman hooks
@@ -237,7 +234,7 @@ package_linux421() {
     install -Dm644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/90-${pkgbase}.hook"
 }
 
-package_linux421-headers() {
+package_linux50-headers() {
   pkgdesc="Header files and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   provides=("linux-headers=$pkgver")
 
