@@ -13,22 +13,22 @@ _basever=50
 _aufs=20181217
 _bfq=v9
 _bfqdate=20181212
-_sub=0
-_rc=rc2
+_sub=2
+_rc=
 _commit=6e693b3ffecb0b478c7050b44a4842854154f715
 _shortcommit=${_rc}.0120.g6e693b3
-pkgver=${_basekernel}${_shortcommit}
-#pkgver=${_basekernel}.${_sub}
+#pkgver=${_basekernel}${_shortcommit}
+pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git')
 options=('!strip')
-source=(#"https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
         #https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/snapshot/linux-stable-rc-$_commit.tar.gz
-        "linux-${pkgver}.tar.gz::https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-$_commit.tar.gz"
+        #"linux-${pkgver}.tar.gz::https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-$_commit.tar.gz"
         # the main kernel config files
         'config.x86_64' 'config' #'config.aufs'
         "${pkgbase}.preset" # standard config files for mkinitcpio ramdisk
@@ -61,8 +61,9 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.
         '0011-bootsplash.patch'
         '0012-bootsplash.patch'
         '0013-bootsplash.patch')
-sha256sums=('996e05dbdc789b80b6a33ee82d22d8a2120b59694ae1c7298050784bf7ab9826'
-            '0f955391df2f631f7bb4e63803310671316278c70d014fb803c0e18a384dba45'
+sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
+            '2715d463b92bd629da579661e3a2a19c0b87f31083bc60b7e33c380293fe10a4'
+            '7acb003c910834a35834b5a8c38badddc347fc0ab9edcf6a343c3c227a31a0ef'
             'f5903377d29fc538af98077b81982efdc091a8c628cb85566e88e1b5018f12bf'
             '43942683a7ff01b180dff7f3de2db4885d43ab3d4e7bd0e1918c3aaf2ee061f4'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -83,11 +84,11 @@ sha256sums=('996e05dbdc789b80b6a33ee82d22d8a2120b59694ae1c7298050784bf7ab9826'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')
 prepare() {
   #mv "${srcdir}/linux-stable-rc-${_commit}" "${srcdir}/linux-${_basekernel}"
-  mv "${srcdir}/linux-${_commit}" "${srcdir}/linux-${_basekernel}"
+  #mv "${srcdir}/linux-${_commit}" "${srcdir}/linux-${_basekernel}"
   cd "${srcdir}/linux-${_basekernel}"
 
   # add upstream patch
-  #patch -p1 -i "${srcdir}/patch-${pkgver}"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
