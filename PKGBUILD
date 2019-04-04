@@ -13,7 +13,7 @@ _basever=50
 _aufs=20181217
 _bfq=v9
 _bfqdate=20181212
-_sub=5
+_sub=6
 _rc=
 _commit=6e693b3ffecb0b478c7050b44a4842854154f715
 _shortcommit=${_rc}.0120.g6e693b3
@@ -62,7 +62,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0012-bootsplash.patch'
         '0013-bootsplash.patch')
 sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
-            '70051be96455f84e13af8a3e487a6da2ed3274843bbd26049004d4e7578365ea'
+            '188fbac8a0c853d560252f0b37ab98c6707ad8d0840394bef7e269229fefd6d3'
             '7acb003c910834a35834b5a8c38badddc347fc0ab9edcf6a343c3c227a31a0ef'
             'f5903377d29fc538af98077b81982efdc091a8c628cb85566e88e1b5018f12bf'
             '43942683a7ff01b180dff7f3de2db4885d43ab3d4e7bd0e1918c3aaf2ee061f4'
