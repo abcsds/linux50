@@ -10,10 +10,10 @@ pkgname=('linux50' 'linux50-headers')
 _kernelname=-MANJARO
 _basekernel=5.0
 _basever=50
-_aufs=20181217
+_aufs=20190311
 _bfq=v9
 _bfqdate=20181212
-_sub=6
+_sub=7
 _rc=
 _commit=6e693b3ffecb0b478c7050b44a4842854154f715
 _shortcommit=${_rc}.0120.g6e693b3
@@ -34,19 +34,20 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         "${pkgbase}.preset" # standard config files for mkinitcpio ramdisk
         '60-linux.hook'     # pacman hook for depmod
         '90-linux.hook'     # pacman hook for initramfs regeneration
-        #"aufs4.x-rcN-${_aufs}.patch.bz2"
-        #'aufs4-base.patch'
-        #'aufs4-kbuild.patch'
-        #'aufs4-loopback.patch'
-        #'aufs4-mmap.patch'
-        #'aufs4-standalone.patch'
-        #'tmpfs-idr.patch'
-        #'vfs-ino.patch'
+        "aufs5.0-${_aufs}.patch.bz2"
+        'aufs5-base.patch'
+        'aufs5-kbuild.patch'
+        'aufs5-loopback.patch'
+        'aufs5-mmap.patch'
+        'aufs5-standalone.patch'
+        'tmpfs-idr.patch'
+        'vfs-ino.patch'
         #"0001-BFQ-${_bfq}-${_bfqdate}.patch::https://github.com/Algodev-github/bfq-mq/compare/0adb328...698937e.patch"
         #0001-BFQ-${_bfq}-${_bfqdate}.patch::https://github.com/sirlucjan/kernel-patches/raw/master/4.19/bfq-sq-mq/4.19-bfq-sq-mq-v9r1-2K181212-rc1.patch
         # ARCH Patches
         0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
         # MANJARO Patches
+        0001-tpm-fix-an-invalid-condition-in-tpm_common_poll.patch::https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git/patch/?id=7bde1fe0abbe202dc1f484fe7ef110f6ed3b1351
         # Bootsplash
         '0001-bootsplash.patch'
         '0002-bootsplash.patch'
@@ -62,13 +63,22 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0012-bootsplash.patch'
         '0013-bootsplash.patch')
 sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
-            '188fbac8a0c853d560252f0b37ab98c6707ad8d0840394bef7e269229fefd6d3'
+            '1352a9a46776c2ed4ea9bfaafa5c4ae5f78a7de7748db2f00157540e395357e4'
             '7acb003c910834a35834b5a8c38badddc347fc0ab9edcf6a343c3c227a31a0ef'
             'f5903377d29fc538af98077b81982efdc091a8c628cb85566e88e1b5018f12bf'
             '43942683a7ff01b180dff7f3de2db4885d43ab3d4e7bd0e1918c3aaf2ee061f4'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '90831589b7ab43d6fab11bfa3ad788db14ba77ea4dc03d10ee29ad07194691e1'
+            'dc6172a114b632eddca6db6cc424b074e55095b1fba61f83f904a46a1bf03b26'
+            'd26c426b08b456e2d5fd7f19b995db4fe04ebca908d18170f008b330a1b46534'
+            '757bdd94a264e1f84f487573735890d5ae59a9de44908898007773f52be0ab83'
+            'fddf5e04ba2b4d6d4f7f29c63bb638aa8f478d27b20ae272f47d0f4cd13d86a7'
+            '2516d8155c71580d9bdb960369c0cd7d136bddabd43f372d5444617c9fb8fdb7'
+            '0b641f5fd81275daf563dd2875d8dd388ddf65286c50f43ba3558b7ae19e847d'
+            '827c362ba3cb04a1ba635599599c4754b82367018a7ad4215af5b13192e09022'
+            '9fc1ddff9732ad760334c7ffe4994da5f803f472914ab05ee79efb65d974b7f8'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
+            '7a0d34cd73b75186aef4792fed72a7c261471fffb7bf52f9cefaee30baf0eb14'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
             'e096b127a5208f56d368d2cb938933454d7200d70c86b763aa22c38e0ddb8717'
             '8c1c880f2caa9c7ae43281a35410203887ea8eae750fe8d360d0c8bf80fcc6e0'
@@ -98,6 +108,9 @@ prepare() {
   # disable USER_NS for non-root users by default
   patch -Np1 -i ../0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
 
+  # tpm: fix an invalid condition in tpm_common_poll
+  patch -Np1 -i ../0001-tpm-fix-an-invalid-condition-in-tpm_common_poll.patch
+
   # Add bootsplash - http://lkml.iu.edu/hypermail/linux/kernel/1710.3/01542.html
   patch -Np1 -i "${srcdir}/0001-bootsplash.patch"
   patch -Np1 -i "${srcdir}/0002-bootsplash.patch"
@@ -114,15 +127,15 @@ prepare() {
   # use git-apply to add binary files
   git apply -p1 < "${srcdir}/0013-bootsplash.patch"
 
-  # add aufs4 support
-#  patch -Np1 -i "${srcdir}/aufs4.x-rcN-${_aufs}.patch"
-#  patch -Np1 -i "${srcdir}/aufs4-base.patch"
-#  patch -Np1 -i "${srcdir}/aufs4-kbuild.patch"
-#  patch -Np1 -i "${srcdir}/aufs4-loopback.patch"
-#  patch -Np1 -i "${srcdir}/aufs4-mmap.patch"
-#  patch -Np1 -i "${srcdir}/aufs4-standalone.patch"
-#  patch -Np1 -i "${srcdir}/tmpfs-idr.patch"
-#  patch -Np1 -i "${srcdir}/vfs-ino.patch"
+  # add aufs5 support
+  patch -Np1 -i "${srcdir}/aufs5.0-${_aufs}.patch"
+  patch -Np1 -i "${srcdir}/aufs5-base.patch"
+  patch -Np1 -i "${srcdir}/aufs5-kbuild.patch"
+  patch -Np1 -i "${srcdir}/aufs5-loopback.patch"
+  patch -Np1 -i "${srcdir}/aufs5-mmap.patch"
+  patch -Np1 -i "${srcdir}/aufs5-standalone.patch"
+  patch -Np1 -i "${srcdir}/tmpfs-idr.patch"
+  patch -Np1 -i "${srcdir}/vfs-ino.patch"
 
   # add BFQ scheduler
 #  patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
@@ -133,7 +146,7 @@ prepare() {
     cat "${srcdir}/config" > ./.config
   fi
 
-#  cat "${srcdir}/config.aufs" >> ./.config
+  cat "${srcdir}/config.aufs" >> ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
