@@ -13,7 +13,7 @@ _basever=50
 _aufs=20181217
 _bfq=v9
 _bfqdate=20181212
-_sub=3
+_sub=8
 _rc=
 _commit=6e693b3ffecb0b478c7050b44a4842854154f715
 _shortcommit=${_rc}.0120.g6e693b3
@@ -47,6 +47,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         # ARCH Patches
         0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
         # MANJARO Patches
+        ELAN_touchpad_i2c_hid_pinctrl.patch
         # Bootsplash
         '0001-bootsplash.patch'
         '0002-bootsplash.patch'
@@ -97,6 +98,8 @@ prepare() {
 
   # disable USER_NS for non-root users by default
   patch -Np1 -i ../0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
+
+  patch -Np1 -i ../ELAN_touchpad_i2c_hid_pinctrl.patch
 
   # Add bootsplash - http://lkml.iu.edu/hypermail/linux/kernel/1710.3/01542.html
   patch -Np1 -i "${srcdir}/0001-bootsplash.patch"
