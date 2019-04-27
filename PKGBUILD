@@ -13,7 +13,7 @@ _basever=50
 _aufs=20190311
 _bfq=v9
 _bfqdate=20181212
-_sub=8
+_sub=10
 pkgver=${_basekernel}.${_sub}
 pkgrel=2
 arch=('i686' 'x86_64')
@@ -45,7 +45,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
         # MANJARO Patches
         ELAN_touchpad_i2c_hid_pinctrl.patch
-        0001-tpm-fix-an-invalid-condition-in-tpm_common_poll.patch::https://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git/patch/?id=7bde1fe0abbe202dc1f484fe7ef110f6ed3b1351
         # Bootsplash
         '0001-bootsplash.patch'
         '0002-bootsplash.patch'
@@ -61,7 +60,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0012-bootsplash.patch'
         '0013-bootsplash.patch')
 sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
-            '735404f3c76533574155ea1325ed76d158f3ee9ca5a745c6d0dcf4ec4b280ca3'
+            'b291c978cee9a9018d29d31e8e838de93ad727da6932220388d4c3aaf3253b56'
             '2cbb33ab93c4550e4138522984aeb3c16315d7fadde91a8e3b9a01141e89a0f1'
             'a04b59a496977b17c3a71fa985bc5abeba20ec02d387f1b9759e568ac8a88392'
             'b44d81446d8b53d5637287c30ae3eb64cae0078c3fbc45fcf1081dd6699818b5'
@@ -78,7 +77,6 @@ sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
             '9fc1ddff9732ad760334c7ffe4994da5f803f472914ab05ee79efb65d974b7f8'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'd5204941a683ce09f97fd068863e0fe437a15c6e1b87e08bd9a992d65e8b0d38'
-            '7a0d34cd73b75186aef4792fed72a7c261471fffb7bf52f9cefaee30baf0eb14'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
             'e096b127a5208f56d368d2cb938933454d7200d70c86b763aa22c38e0ddb8717'
             '8c1c880f2caa9c7ae43281a35410203887ea8eae750fe8d360d0c8bf80fcc6e0'
@@ -109,8 +107,6 @@ prepare() {
   patch -Np1 -i ../0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
 
   patch -Np1 -i ../ELAN_touchpad_i2c_hid_pinctrl.patch
-  # tpm: fix an invalid condition in tpm_common_poll
-  patch -Np1 -i ../0001-tpm-fix-an-invalid-condition-in-tpm_common_poll.patch
 
   # Add bootsplash - http://lkml.iu.edu/hypermail/linux/kernel/1710.3/01542.html
   patch -Np1 -i "${srcdir}/0001-bootsplash.patch"
