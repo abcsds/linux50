@@ -7,7 +7,7 @@
 
 pkgbase=linux50
 pkgname=('linux50' 'linux50-headers')
-_kernelname=-MANJARO
+_kernelname=-BETO
 _basekernel=5.0
 _basever=50
 _aufs=20190311
@@ -58,7 +58,9 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0010-bootsplash.patch'
         '0011-bootsplash.patch'
         '0012-bootsplash.patch'
-        '0013-bootsplash.patch')
+        '0013-bootsplash.patch'
+        # Trekstor c11b
+        'trekstor.patch')
 sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
             '32c84ee7ea4ac2db5403df3336611ff7635fa9b7098f876e1da8009f9daff694'
             '837e768f13f4b822dddab2791bb081f3cba1f9335adcf060e2afa8eac002830e'
@@ -89,7 +91,8 @@ sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
             'e9f22cbb542591087d2d66dc6dc912b1434330ba3cd13d2df741d869a2c31e89'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
-            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')
+            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
+            'cea081be67c7f4e3a9f9a81b3a2143bfebd79ae99ab0921fc644d7cd98c67e86')
 prepare() {
   #mv "${srcdir}/linux-stable-rc-${_commit}" "${srcdir}/linux-${_basekernel}"
   #mv "${srcdir}/linux-${_commit}" "${srcdir}/linux-${_basekernel}"
