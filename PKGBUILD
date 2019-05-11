@@ -60,7 +60,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0012-bootsplash.patch'
         '0013-bootsplash.patch'
         # Trekstor c11b
-        'trekstor.patch')
+        'touchscreen.patch'
+	'i2c-hid.patch')
 sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
             '32c84ee7ea4ac2db5403df3336611ff7635fa9b7098f876e1da8009f9daff694'
             '837e768f13f4b822dddab2791bb081f3cba1f9335adcf060e2afa8eac002830e'
@@ -92,7 +93,8 @@ sha256sums=('437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43'
             '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
             '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
             '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef'
-            'cea081be67c7f4e3a9f9a81b3a2143bfebd79ae99ab0921fc644d7cd98c67e86')
+            '7d378abeae0a309a45aaf7aa7f4faf94f301f21504c0139620947c793e8b5cc3'
+            '4d953863cdc603173f8b1b0e5a03a43bab4096f5604b0f95617c805af3d0d928')
 prepare() {
   #mv "${srcdir}/linux-stable-rc-${_commit}" "${srcdir}/linux-${_basekernel}"
   #mv "${srcdir}/linux-${_commit}" "${srcdir}/linux-${_basekernel}"
